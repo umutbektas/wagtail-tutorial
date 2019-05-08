@@ -1,6 +1,5 @@
 """StreamFields live in here"""
 
-
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
@@ -41,7 +40,6 @@ class CardBlock(blocks.StructBlock):
 
 
 
-
 class RichTextBlock(blocks.RichTextBlock):
     """Richtext with all the features."""
 
@@ -67,3 +65,19 @@ class SimpleRichTextBlock(blocks.RichTextBlock):
         template = "streams/simple_richtext_block.html"
         icon = "edit"
         label = "Simple RichText"
+
+
+
+class CTABlock(blocks.StructBlock):
+    """A simple call to action section."""
+    
+    title = blocks.CharBlock(required=False, max_length=60)
+    text = blocks.RichTextBlock(required=True, features=["bold", "italic"])
+    button_page = blocks.PageChooserBlock(required=False) # internal
+    button_url = blocks.URLBlock(required=False) # external
+    button_text = blocks.CharBlock(required=False, default="Learn More", max_length=30)
+
+    class Meta: # noqa
+        template = "streams/cta_block.html"
+        icon = "placeholder"
+        label = "Call to Action"
