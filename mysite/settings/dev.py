@@ -15,7 +15,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 """For Django Debug Tools"""
 
-INSTALLED_APPS = INSTALLED_APPS + [
+"""INSTALLED_APPS = INSTALLED_APPS + [
     'debug_toolbar'
 ]
 
@@ -24,7 +24,7 @@ MIDDLEWARE = MIDDLEWARE + [
 ]
 
 INTERNAL_IPS = ("127.0.0.1")
-
+"""
 """For Django Debug Tools"""
 
 
