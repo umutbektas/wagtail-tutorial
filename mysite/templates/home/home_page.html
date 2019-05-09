@@ -12,13 +12,44 @@
     <p class="lead">{{self.banner_subtitle|richtext}}</p>
     <hr class="my-4">
     {% if self.banner_cta %}
-        <a class="btn btn-primary btn-lg" href="#" role="button">{{self.banner_cta}}</a>
+        <a class="btn btn-primary btn-lg" href="{{ self.banner_cta.url }}" role="button">{{self.banner_cta}}</a>
     {% endif %}
 </div>
 
-{% for block in page.content  %}
-{% include_block block %}
 
+
+
+
+<div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
+    <div class="carousel-inner">
+
+        {% for item in self.carousel_images.all %}
+            {% image item.carousel_image fill-900x400 as img %}
+            <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                <img src="{{ img.url }}" class="d-block w-100" alt="{{ img.alt }}">
+            </div>
+        {% endfor %}
+        
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+
+
+
+
+
+
+{% for block in page.content  %}
+    {% include_block block %}
 {% endfor %}
 
 {% endblock %}
