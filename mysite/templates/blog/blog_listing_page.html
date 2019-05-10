@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% load wagtailimages_tags wagtailcore_tags %}
+
+
+{% block content %}
+<div class="container mt-5">
+
+
+    {% for post in posts %}
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            {% image post.blog_image fill-250x250 as blog_img %}
+
+            <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}">
+
+        </div>
+
+        <div class="col-sm-8">
+
+            <a href="{{ post.url }}">
+                {% if post.custom_title %}
+                    <h3>{{ post.custom_title }}</h3>
+                {% else %}
+                    <h3>{{ post.title }}</h3>
+                {% endif %}
+                    
+            </a>
+
+            {% for block in post.content %}
+                {% include_block block %}
+            {% endfor %}
+        </div>
+
+    </div>
+    {% endfor %}
+
+
+</div>
+{% endblock content %}
