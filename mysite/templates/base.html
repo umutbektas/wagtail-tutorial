@@ -20,6 +20,7 @@
 
     {# Global stylesheets #}
     <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
     {% block extra_css %}
     {# Override this in templates to add extra stylesheets #}
@@ -30,7 +31,7 @@
     {% wagtailuserbar %}
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="/">Hope and Code</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
             aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -39,20 +40,31 @@
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="/about">About</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <div class="mr-5">
+                {% if settings.site_settings.SocialMediaSettings.facebook %}
+                    <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
+                        <i class="fab fa-facebook-square fa-2x" style="color:white"></i>
+                    </a>
+                {% endif %}
+                {% if settings.site_settings.SocialMediaSettings.twitter %}
+                    <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.twitter }}">
+                        <i class="fab fa-twitter-square fa-2x" style="color:white"></i>
+                    </a>
+                {% endif %}
+                {% if settings.site_settings.SocialMediaSettings.youtube %}
+                    <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.youtube }}">
+                        <i class="fab fa-youtube-square fa-2x" style="color:white"></i>
+                    </a>
+                {% endif %}
+            </div>
+            <form class="form-inline my-2 my-lg-0" action="/search">
+                <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
