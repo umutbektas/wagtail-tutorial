@@ -43,7 +43,7 @@ class CardBlock(blocks.StructBlock):
 class RichTextBlock(blocks.RichTextBlock):
     """Richtext with all the features."""
 
-    class Meta:
+    class Meta: #noqa
         template = "streams/richtext_block.html"
         icon = "doc-full"
         label = "Full RichText"
@@ -61,7 +61,7 @@ class SimpleRichTextBlock(blocks.RichTextBlock):
             "link",
         ]
 
-    class Meta:
+    class Meta: #noqa
         template = "streams/simple_richtext_block.html"
         icon = "edit"
         label = "Simple RichText"
