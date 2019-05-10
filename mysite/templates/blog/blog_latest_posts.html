@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 
 
-{% load wagtailimages_tags wagtailroutablepage_tags %}
+{% load wagtailimages_tags wagtailcore_tags %}
 
 
 {% block content %}
-
 <div class="container mt-5">
-    <a href="{{ sub_link }}"><h3>Go to Latest Posts</h3></a>
-</div>
 
-<div class="container mt-5">
+    <h1>Latest Posts</h1>
 
     {% for post in posts %}
     <div class="row mb-5">
