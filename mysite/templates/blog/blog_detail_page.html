@@ -13,6 +13,18 @@
         <div class="text-center">
             <h1>{{ self.custom_title }}</h1>
         </div>
+        <ul>
+            {% for item in self.blog_authors.all %}
+                {% image item.author.image fill-50x50 as img %}
+                <li class="mb-2">
+                    <img class="mr-2" src="{{ img.url }}" alt="{{ item.author.name }}">
+                        {{ item.author.name }}
+                    {% if item.author.website %}
+                        <a href="{{ item.author.website }}"> (Website) </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 
     
