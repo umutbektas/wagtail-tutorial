@@ -2,13 +2,53 @@ from django.db import models
 from django.shortcuts import render
 
 from wagtail.core.models import Page
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
 from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.snippets.models import register_snippet
 
 from streams import blocks
 
+
+class BlogAuthor(models.Model):
+    """Blog author for snippets"""
+    name = models.CharField(max_length=100)
+    website = models.URLField(blank=True, null=True)
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name="+",
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("name"),
+                ImageChooserPanel("image"),
+            ],
+            heading="Name and Image"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("website")
+            ],
+            heading="Links"
+        )
+    ]
+
+    def __str__(self):
+        """String repr of this class."""
+        return self.name
+
+    class Meta: # noqa
+        verbose_name = "Blog Author"
+        verbose_name_plural = "Blog Authors"
+
+
+register_snippet(BlogAuthor)
 
 
 class BlogListingPage(RoutablePageMixin, Page):
@@ -31,11 +71,9 @@ class BlogListingPage(RoutablePageMixin, Page):
 
         return context
 
-
     class Meta: # noqa
         verbose_name = "Blog Page"
         verbose_name_plural = "Blog Page"
-
 
     @route('^latest/$', name="latest_posts")
     def latest_blog_posts(self, request, *args, **kwargs):
@@ -66,7 +104,6 @@ class BlogDetailPage(Page):
     custom_title = models.CharField(max_length=100, blank=False, null=False, help_text="Overwrites the Default Title")
     blog_image = models.ForeignKey("wagtailimages.Image", blank=False, null=True, related_name="+", on_delete=models.SET_NULL)
 
-
     content = StreamField(
         [
             ("title_and_text", blocks.TitleAndTextBlock()),
@@ -84,7 +121,6 @@ class BlogDetailPage(Page):
         ImageChooserPanel("blog_image"),
         StreamFieldPanel("content"),
     ]
-
 
     class Meta: # noqa
         verbose_name = "Post"
