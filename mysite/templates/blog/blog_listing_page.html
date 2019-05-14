@@ -11,6 +11,19 @@
 </div>
 
 <div class="container mt-5">
+    <h2>Categoreis</h2>
+    <ul>
+    {% for category in categories %}
+        <li>
+            <a href="?category={{ category.slug }}">
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="container mt-5">
 
     {% for post in posts %}
     <div class="row mb-5">
