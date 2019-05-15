@@ -27,6 +27,10 @@ INTERNAL_IPS = ("127.0.0.1")
 """
 """For Django Debug Tools"""
 
+INSTALLED_APPS = INSTALLED_APPS + [
+    # 'debug_toolbar',
+    'django_extensions'
+]
 
 try:
     from .local import *
