@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
 from django.shortcuts import render
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.core.models import Page, Orderable
@@ -104,7 +105,18 @@ class BlogListingPage(RoutablePageMixin, Page):
         """Adding custom stuff to our context."""
         
         context = super().get_context(request, *args, **kwargs)
-        context['posts'] = BlogDetailPage.objects.live().public()
+        all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
+        paginator = Paginator(all_posts, 2) # TODO change to 5 per page
+        page = request.GET.get("page")
+
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        context["posts"] = posts
         context['sub_link'] = self.reverse_subpage('latest_posts')
         context['categories'] = BlogCategory.objects.all()
 
