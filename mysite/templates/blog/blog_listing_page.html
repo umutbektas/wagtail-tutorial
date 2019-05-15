@@ -46,6 +46,11 @@
                 {% endif %}
                     
             </a>
+
+        {{ post.specific.content|striptags|truncatewords:"50"}}
+        <div class="col">
+            <a class="btn btn-info mt-3" href="{{ post.url }}">Read More</a>
+        </div>
         </div>
 
     </div>
