@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% load wagtailimages_tags wagtailroutablepage_tags %}
+{% load wagtailimages_tags wagtailroutablepage_tags cache %}
 
 
 {% block content %}
@@ -26,34 +26,32 @@
 <div class="container mt-5">
 
     {% for post in posts %}
-    <div class="row mb-5">
+        {% cache 604800 blog_post_preview post.id %}
+            <div class="row mb-5">
 
-        <div class="col-sm-4">
+                <div class="col-sm-4">
+                    {% image post.blog_image fill-370x250 as blog_img %}
 
-            {% image post.blog_image fill-370x250 as blog_img %}
+                    <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}">
+                </div>
 
-            <img src="{{ blog_img.url }}" alt="{{ blog_img.alt }}">
+                <div class="col-sm-8">
+                    <a href="{{ post.url }}">
+                        {% if post.custom_title %}
+                            <h3>{{ post.custom_title }}</h3>
+                        {% else %}
+                            <h3>{{ post.title }}</h3>
+                        {% endif %}
+                    </a>
 
-        </div>
+                    {{ post.specific.content|striptags|truncatewords:"50"}}
+                    <div class="col">
+                        <a class="btn btn-info mt-3" href="{{ post.url }}">Read More</a>
+                    </div>
+                </div>
 
-        <div class="col-sm-8">
-
-            <a href="{{ post.url }}">
-                {% if post.custom_title %}
-                    <h3>{{ post.custom_title }}</h3>
-                {% else %}
-                    <h3>{{ post.title }}</h3>
-                {% endif %}
-                    
-            </a>
-
-        {{ post.specific.content|striptags|truncatewords:"50"}}
-        <div class="col">
-            <a class="btn btn-info mt-3" href="{{ post.url }}">Read More</a>
-        </div>
-        </div>
-
-    </div>
+            </div>
+        {% endcache %}
     {% endfor %}
 
 <div class="container">

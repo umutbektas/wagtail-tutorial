@@ -27,6 +27,15 @@ INTERNAL_IPS = ("127.0.0.1")
 """
 """For Django Debug Tools"""
 
+# if you want to cache ?  Remove from comment lines
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": os.path.join(BASE_DIR, 'cache')
+#     }
+# }
+
+
 INSTALLED_APPS = INSTALLED_APPS + [
     # 'debug_toolbar',
     'django_extensions'

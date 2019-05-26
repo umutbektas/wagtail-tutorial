@@ -1,4 +1,4 @@
-{% load static wagtailuserbar menus_tags %}
+{% load static wagtailuserbar menus_tags cache %}
 
 {% get_menu "main" as menus %}
 
@@ -46,51 +46,57 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                
-                {% for menu in menus.menu_items.all %}
-                    <li class="nav-item">
-                        <a target="{{ menu.target }}" class="nav-link" href="{{ menu.link }}">{{ menu.title }}</a>
-                    </li>
-                {% endfor %}
+                {% cache 604800 navigation %}
+                    {% for menu in menus.menu_items.all %}
+                        <li class="nav-item">
+                            <a target="{{ menu.target }}" class="nav-link" href="{{ menu.link }}">{{ menu.title }}</a>
+                        </li>
+                    {% endfor %}
+                {% endcache %}
 
             </ul>
 
-            <div class="mr-5">
-                {% if settings.site_settings.SocialMediaSettings.facebook %}
-                    <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
-                        <i class="fab fa-facebook-square fa-2x" style="color:white"></i>
-                    </a>
-                {% endif %}
-                {% if settings.site_settings.SocialMediaSettings.twitter %}
-                    <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.twitter }}">
-                        <i class="fab fa-twitter-square fa-2x" style="color:white"></i>
-                    </a>
-                {% endif %}
-                {% if settings.site_settings.SocialMediaSettings.youtube %}
-                    <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.youtube }}">
-                        <i class="fab fa-youtube-square fa-2x" style="color:white"></i>
-                    </a>
-                {% endif %}
+            {% cache 604800 social %}
+                <div class="mr-5">
+                    {% if settings.site_settings.SocialMediaSettings.facebook %}
+                        <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
+                            <i class="fab fa-facebook-square fa-2x" style="color:white"></i>
+                        </a>
+                    {% endif %}
+                    {% if settings.site_settings.SocialMediaSettings.twitter %}
+                        <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.twitter }}">
+                            <i class="fab fa-twitter-square fa-2x" style="color:white"></i>
+                        </a>
+                    {% endif %}
+                    {% if settings.site_settings.SocialMediaSettings.youtube %}
+                        <a class="mr-1" href="{{ settings.site_settings.SocialMediaSettings.youtube }}">
+                            <i class="fab fa-youtube-square fa-2x" style="color:white"></i>
+                        </a>
+                    {% endif %}
+                </div>
+                <form class="form-inline my-2 my-lg-0" action="/search">
+                    <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
-            <form class="form-inline my-2 my-lg-0" action="/search">
-                <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
+        {% endcache  %}
     </nav>
 
     {% block content %}{% endblock %}
 
-    {# Global javascript #}
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+
+    {% cache 604800 js_scripts %}
+        {# Global javascript #}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+        </script>
+    {% endcache %}
 
     {% block extra_js %}
     {# Override this in templates to add extra javascript #}
