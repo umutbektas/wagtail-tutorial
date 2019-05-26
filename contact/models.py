@@ -13,12 +13,14 @@ from wagtail.contrib.forms.models import (
     AbstractFormField
 )
 
+from wagtailcaptcha.models import WagtailCaptchaEmailForm
+
 
 class FormField(AbstractFormField):
     page = ParentalKey('ContactPage', on_delete=models.CASCADE, related_name="form_fields",)
 
 
-class ContactPage(AbstractEmailForm):
+class ContactPage(WagtailCaptchaEmailForm):
 
     template = "contact/contact_page.html"
     # This is the default path.
