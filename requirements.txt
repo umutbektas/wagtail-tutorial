@@ -15,7 +15,7 @@ djangorestframework==3.17.2
 draftjs-exporter==2.1.5
 html5lib==1.0.1
 idna==2.8
-ipython==7.16.3
+ipython==8.10.0
 ipython-genutils==0.2.0
 isort==4.3.18
 jedi==0.13.3
